@@ -7,7 +7,42 @@
   "author": "Arijit Das <arijit@itobuz.com>",
   "description": "",
   "main": "./src/main.ts",
+
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts"
+  },
   "devDependencies": {
-    "@biomejs/biome": "2.0.0"
+    "@biomejs/biome": "^2.0.0",
+    "@swc/cli": "^0.7.7",
+    "@swc/core": "^1.12.4",
+    "@swc/helpers": "^0.5.17",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.0.3",
+    "@types/node-schedule": "^2.1.7",
+    "@types/nodemailer": "^6.4.17",
+    "@types/uuid": "^10.0.0",
+    "@vercel/ncc": "^0.38.3",
+    "esbuild": "^0.25.5",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
+    "dotenv": "^16.5.0",
+    "env-var": "^7.5.0",
+    "express": "^5.1.0",
+    "http-status": "^2.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0",
+    "nodemailer": "^7.0.3",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.67"
   }
 }
