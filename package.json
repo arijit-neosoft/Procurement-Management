@@ -1,0 +1,13 @@
+{
+  "name": "procurement-management",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "UNLICENSED",
+  "private": true,
+  "author": "Arijit Das <arijit@itobuz.com>",
+  "description": "",
+  "main": "./src/main.ts",
+  "devDependencies": {
+    "@biomejs/biome": "2.0.0"
+  }
+}
