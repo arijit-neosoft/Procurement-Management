@@ -1,0 +1,16 @@
+name: procurement-management
+
+services:
+  mongodb:
+    # mongo out container uri     : mongodb://root:password@localhost:27017/mydb?authSource=admin
+    # mongo in container uri      : mongodb://root:password@db:27017/mydb?authSource=admin
+    container_name: mongodb
+    image: mongo:latest
+    restart: on-failure:3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - 27017:27017
+    volumes:
+      - ./tmp/db:/data/db
