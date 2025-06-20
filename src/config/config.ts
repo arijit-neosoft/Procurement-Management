@@ -11,5 +11,5 @@ export const config = {
     MONGO_INITDB_ROOT_USERNAME: env.get('MONGO_INITDB_ROOT_USERNAME').required().asString(),
     MONGO_INITDB_ROOT_PASSWORD: env.get('MONGO_INITDB_ROOT_PASSWORD').required().asString(),
     MONGODB_URI: env.get('MONGODB_URI').required().asString(),
-  }
+  },
 };

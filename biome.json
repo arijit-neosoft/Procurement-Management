@@ -1,8 +1,5 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
-  "files": {
-    "includes": ["./src"]
-  },
 
   "linter": {
     "enabled": true,
@@ -46,6 +43,14 @@
     "parser": {
       "allowTrailingCommas": true,
       "allowComments": true
+    }
+  },
+
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
     }
   }
 }
