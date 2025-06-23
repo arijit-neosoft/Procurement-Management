@@ -12,7 +12,7 @@ import { TokenType } from '../../model/token.model.js';
 import { Role } from '../../model/user.model.js';
 import type { IAdminAssignIMtoPMInput } from './dto/adminAssignIMtoPMInput.input.js';
 import type { ICreateUsersByAdminInput } from './dto/createUsersByAdmin.input.js';
-import { ICreateUsersByPMInput } from './dto/createUsersByPM.input.js';
+import type { ICreateUsersByPMInput } from './dto/createUsersByPM.input.js';
 import type { ISigninInput } from './dto/signin.input.js';
 import type { ISignUpAdminInput } from './dto/signupAdmin.input.js';
 import type { IVerifyInput } from './dto/verify.input.js';
