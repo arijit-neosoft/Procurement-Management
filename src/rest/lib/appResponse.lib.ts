@@ -1,5 +1,5 @@
 import { config } from '../../config/config.js';
-import type { IAppResponseHandlerInput } from '../interface/AppResponse.interface.js';
+import type { IAppResponseHandlerInput } from '../interface/appResponse.interface.js';
 
 export class AppResponse {
   public name = 'AppResponse';

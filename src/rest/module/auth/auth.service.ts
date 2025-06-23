@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import { config } from '../../../config/config.js';
 import { _model } from '../../_model.js';
-import type { IServiceResponse } from '../../interface/AppResponse.interface.js';
+import type { IServiceResponse } from '../../interface/appResponse.interface.js';
 import type { IJwtPayload } from '../../interface/jwt.interface.js';
 import { AppException } from '../../lib/appException.lib.js';
 import { EmailService } from '../../lib/emailService.lib.js';
