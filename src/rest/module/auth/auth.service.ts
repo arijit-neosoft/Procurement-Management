@@ -4,10 +4,14 @@ import jwt from 'jsonwebtoken';
 import { config } from '../../../config/config.js';
 import { _model } from '../../_model.js';
 import type { IServiceResponse } from '../../interface/AppResponse.interface.js';
+import type { IJwtPayload } from '../../interface/jwt.interface.js';
 import { AppException } from '../../lib/appException.lib.js';
 import { EmailService } from '../../lib/emailService.lib.js';
 import { TokenType } from '../../model/token.model.js';
+import type { ISigninInput } from './dto/signin.input.js';
 import type { ISignUpAdminInput } from './dto/signupAdmin.input.js';
+import type { IVerifyInput } from './dto/verify.input.js';
+import type { IVerifyLinkInput } from './dto/verifyLInk.input.js';
 
 export class AuthService {
   async signupAdmin(signupAdminInput: ISignUpAdminInput): Promise<IServiceResponse> {
@@ -20,7 +24,9 @@ export class AuthService {
         throw new AppException('Email already exist', httpStatus.BAD_REQUEST, {});
       }
 
-      const verifyToken = jwt.sign({ email: signupAdminInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, { expiresIn: '10m' });
+      const verifyToken = jwt.sign({ email: signupAdminInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, {
+        expiresIn: config.tokenExpiration.VERIFY_TOKEN_EXPIRATION,
+      });
 
       await EmailService.sendEmail('User Verification Link', `token: ${verifyToken}`, signupAdminInput.email);
 
@@ -37,9 +43,106 @@ export class AuthService {
         phoneNumber: signupAdminInput.phoneNumber,
       });
 
-      return { success: true, message: 'signupAdmin Success', data: {} };
+      return { success: true, message: 'signupAdmin success', data: {} };
     } catch (error) {
-      AppException.exceptionHandler(error, 'signupAdmin Failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      AppException.exceptionHandler(error, 'signupAdmin failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async verifyLink(verifyLinkInput: IVerifyLinkInput): Promise<IServiceResponse> {
+    try {
+      const user = await _model.userModel.findOne({ email: verifyLinkInput.email });
+
+      if (!user) {
+        throw new AppException('Invalid user', httpStatus.BAD_REQUEST, { email: verifyLinkInput.email });
+      }
+
+      const passwordCompare = await bcryptjs.compare(verifyLinkInput.password, user.passwordHash);
+
+      if (!passwordCompare) {
+        throw new AppException('Invalid Credentials', httpStatus.BAD_REQUEST, { email: verifyLinkInput.email });
+      }
+
+      const verifyToken = jwt.sign({ id: user.id, email: verifyLinkInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, {
+        expiresIn: config.tokenExpiration.VERIFY_TOKEN_EXPIRATION,
+      });
+
+      await EmailService.sendEmail('User Verification Link', `token: ${verifyToken}`, verifyLinkInput.email);
+
+      await _model.tokenModel.create({
+        email: verifyLinkInput.email,
+        token: verifyToken,
+        tokenType: TokenType.VERIFY_TOKEN,
+      });
+
+      return { success: true, message: 'verifyLink sent successfully', data: {} };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'verifyLink generate failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async verify(verifyInput: IVerifyInput): Promise<IServiceResponse> {
+    try {
+      const decoded = jwt.verify(verifyInput.verify_token, config.jwt.JWT_VERIFY_TOKEN_SECRET) as IJwtPayload;
+
+      const token_exist = await _model.tokenModel.findOne({ token: verifyInput.verify_token, email: decoded.email });
+
+      if (!token_exist) {
+        throw new AppException('Invalid Token', httpStatus.BAD_REQUEST, {});
+      }
+
+      const user = await _model.userModel.findOne({ email: decoded.email });
+
+      if (!user) {
+        throw new AppException('User does not exist', httpStatus.BAD_REQUEST, {});
+      }
+
+      await _model.userModel.updateOne({ email: decoded.email }, { verified: true });
+      await _model.tokenModel.deleteOne({ token: verifyInput.verify_token, email: decoded.email });
+
+      return { success: true, message: 'verify success', data: { email: decoded.email } };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'verify failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async signin(signinInput: ISigninInput): Promise<IServiceResponse> {
+    try {
+      const user = await _model.userModel.findOne({ email: signinInput.email });
+
+      if (!user) {
+        throw new AppException('Invalid user', httpStatus.BAD_REQUEST, {});
+      }
+
+      if (!user.verified) {
+        throw new AppException('User not verified', httpStatus.FORBIDDEN, {});
+      }
+
+      if (!user.active) {
+        throw new AppException('User not active', httpStatus.FORBIDDEN, {});
+      }
+
+      const passwordCompare = await bcryptjs.compare(signinInput.password, user.passwordHash);
+
+      if (!passwordCompare) {
+        throw new AppException('Invalid Credentials', httpStatus.BAD_REQUEST, {});
+      }
+
+      const jwtPayload: IJwtPayload = { id: user.id, email: user.email };
+
+      const accessToken = jwt.sign(jwtPayload, config.jwt.JWT_ACCESS_TOKEN_SECRET, {
+        expiresIn: config.tokenExpiration.ACCESS_TOKEN_EXPIRATION,
+      });
+      const refreshToken = jwt.sign(jwtPayload, config.jwt.JWT_REFRESH_TOKEN_SECRET, {
+        expiresIn: config.tokenExpiration.REFRESH_TOKEN_EXPIRATION,
+      });
+
+      return { success: true, message: 'signin success', data: { accessToken, refreshToken } };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'signin failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;
     }
   }
