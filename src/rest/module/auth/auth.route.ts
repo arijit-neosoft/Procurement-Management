@@ -15,10 +15,14 @@ authRoute.get('/verifyLink', [], (req: Request, res: Response, next: NextFunctio
   authController.verifyLink(req, res, next);
 });
 
-authRoute.get('/verify', [], (req: Request, res: Response, next: NextFunction) => {
+authRoute.patch('/verify', [], (req: Request, res: Response, next: NextFunction) => {
   authController.verify(req, res, next);
 });
 
 authRoute.get('/signin', [], (req: Request, res: Response, next: NextFunction) => {
   authController.signin(req, res, next);
+});
+
+authRoute.post('/createUsersByAdmin', [], (req: Request, res: Response, next: NextFunction) => {
+  authController.createUsersByAdmin(req, res, next);
 });

@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import { AppException } from '../../lib/appException.lib.js';
 import { AppResponse } from '../../lib/appResponse.lib.js';
 import type { AuthService } from './auth.service.js';
+import { createUsersByAdminInputSchema } from './dto/createUsersByAdmin.input.js';
 import { signinInputSchema } from './dto/signin.input.js';
 import { signupAdminSchema } from './dto/signupAdmin.input.js';
 import { verifyInputSchema } from './dto/verify.input.js';
@@ -80,6 +81,26 @@ export class AuthController {
       }
 
       const appResponse = await this.authService.signin(validationResult.data);
+
+      AppResponse.responseHandler({
+        res: res,
+        statusCode: httpStatus.OK,
+        responseType: appResponse,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createUsersByAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const validationResult = createUsersByAdminInputSchema.safeParse(req.body);
+
+      if (!validationResult.success) {
+        throw new AppException('createUsersByAdmin validation failed', httpStatus.BAD_REQUEST, validationResult.error);
+      }
+
+      const appResponse = await this.authService.createUsersByAdmin(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,

@@ -8,6 +8,7 @@ import type { IJwtPayload } from '../../interface/jwt.interface.js';
 import { AppException } from '../../lib/appException.lib.js';
 import { EmailService } from '../../lib/emailService.lib.js';
 import { TokenType } from '../../model/token.model.js';
+import { ICreateUsersByAdminInput } from './dto/createUsersByAdmin.input.js';
 import type { ISigninInput } from './dto/signin.input.js';
 import type { ISignUpAdminInput } from './dto/signupAdmin.input.js';
 import type { IVerifyInput } from './dto/verify.input.js';
@@ -16,12 +17,16 @@ import type { IVerifyLinkInput } from './dto/verifyLInk.input.js';
 export class AuthService {
   async signupAdmin(signupAdminInput: ISignUpAdminInput): Promise<IServiceResponse> {
     try {
-      const emailExist = await _model.userModel.findOne({
-        email: signupAdminInput.email,
-      });
+      const emailExist = await _model.userModel.findOne({ email: signupAdminInput.email });
 
       if (emailExist) {
         throw new AppException('Email already exist', httpStatus.BAD_REQUEST, {});
+      }
+
+      const phoneExist = await _model.userModel.findOne({ phoneNumber: signupAdminInput.phoneNumber });
+
+      if (phoneExist) {
+        throw new AppException('Phone number already exist', httpStatus.BAD_REQUEST, {});
       }
 
       const verifyToken = jwt.sign({ email: signupAdminInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, {
@@ -43,7 +48,7 @@ export class AuthService {
         phoneNumber: signupAdminInput.phoneNumber,
       });
 
-      return { success: true, message: 'signupAdmin success', data: {} };
+      return { success: true, message: 'signupAdmin success, proceed to verification', data: {} };
     } catch (error) {
       AppException.exceptionHandler(error, 'signupAdmin failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;
@@ -148,6 +153,51 @@ export class AuthService {
       return { success: true, message: 'signin success', data: { accessToken, refreshToken } };
     } catch (error) {
       AppException.exceptionHandler(error, 'signin failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async createUsersByAdmin(createUsersByAdminInput: ICreateUsersByAdminInput): Promise<IServiceResponse> {
+    try {
+      const emailExist = await _model.userModel.findOne({
+        email: createUsersByAdminInput.email,
+      });
+
+      if (emailExist) {
+        throw new AppException('Email already exist', httpStatus.BAD_REQUEST, {});
+      }
+
+      const phoneExist = await _model.userModel.findOne({
+        phoneNumber: createUsersByAdminInput.phoneNumber,
+      });
+
+      if (phoneExist) {
+        throw new AppException('Phone number already exist', httpStatus.BAD_REQUEST, {});
+      }
+
+      const verifyToken = jwt.sign({ email: createUsersByAdminInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, {
+        expiresIn: config.tokenExpiration.VERIFY_TOKEN_EXPIRATION,
+      });
+
+      await EmailService.sendEmail('User Verification Link', `token: ${verifyToken}`, createUsersByAdminInput.email);
+
+      await _model.tokenModel.create({ email: createUsersByAdminInput.email, token: verifyToken, tokenType: TokenType.VERIFY_TOKEN });
+
+      const passwordHash = await bcryptjs.hash(createUsersByAdminInput.password, 10);
+
+      const user = await _model.userModel.create({
+        firstName: createUsersByAdminInput.firstName,
+        lastName: createUsersByAdminInput.lastName,
+        email: createUsersByAdminInput.email,
+        passwordHash: passwordHash,
+        dob: createUsersByAdminInput.dob,
+        phoneNumber: createUsersByAdminInput.phoneNumber,
+        role: createUsersByAdminInput.role,
+      });
+
+      return { success: true, message: 'createUsersByAdmin success, proceed to verification', data: { user } };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'createUsersByAdmin failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;
     }
   }
