@@ -24,12 +24,12 @@ export class AuthController {
         throw new AppException('signupAdmin validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.signupAdmin(validationResult.data);
+      const serviceResponse = await this.authService.signupAdmin(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.CREATED,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);
@@ -44,12 +44,12 @@ export class AuthController {
         throw new AppException('verifyLink validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.verifyLink(validationResult.data);
+      const serviceResponse = await this.authService.verifyLink(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.OK,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);
@@ -64,12 +64,12 @@ export class AuthController {
         throw new AppException('verify validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.verify(validationResult.data);
+      const serviceResponse = await this.authService.verify(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.OK,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);
@@ -84,12 +84,12 @@ export class AuthController {
         throw new AppException('signin validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.signin(validationResult.data);
+      const serviceResponse = await this.authService.signin(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.OK,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);
@@ -105,12 +105,12 @@ export class AuthController {
         throw new AppException('createUsersByAdmin validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.createUsersByAdmin(req.user._id, validationResult.data);
+      const serviceResponse = await this.authService.createUsersByAdmin(req.user._id, validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.OK,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);
@@ -126,12 +126,12 @@ export class AuthController {
         throw new AppException('adminAssignIMtoPM validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.adminAssignIMtoPM(validationResult.data);
+      const serviceResponse = await this.authService.adminAssignIMtoPM(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.OK,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);
@@ -147,12 +147,12 @@ export class AuthController {
         throw new AppException('createUsersByPM validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const appResponse = await this.authService.createUsersByPM(validationResult.data);
+      const serviceResponse = await this.authService.createUsersByPM(validationResult.data);
 
       AppResponse.responseHandler({
         res: res,
         statusCode: httpStatus.OK,
-        responseType: appResponse,
+        responseType: serviceResponse,
       });
     } catch (error) {
       next(error);

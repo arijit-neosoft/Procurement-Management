@@ -80,7 +80,7 @@ export class AuthService {
       await EmailService.sendEmail('User Verification Link', `token: ${verifyToken}`, verifyLinkInput.email);
 
       await _model.tokenModel.updateOne(
-        { email: verifyLinkInput.email, tokenType: TokenType.VERIFY_TOKEN }, // Filter
+        { email: verifyLinkInput.email, tokenType: TokenType.VERIFY_TOKEN },
         {
           $set: {
             token: verifyToken,

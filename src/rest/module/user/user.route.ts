@@ -1,0 +1,13 @@
+import { type NextFunction, type Request, type Response, Router } from 'express';
+import { authMiddleware } from '../../middleware/auth.middleware.js';
+import { UserController } from './user.controller.js';
+import { UserService } from './user.service.js';
+
+export const userRoute = Router({ caseSensitive: true, strict: true });
+
+const userService = new UserService();
+const userController = new UserController(userService);
+
+userRoute.get('/profile', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
+  userController.getProfile(req, res, next);
+});
