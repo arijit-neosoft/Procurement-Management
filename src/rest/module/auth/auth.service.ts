@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
-import { ObjectId } from 'mongoose';
+import type { ObjectId } from 'mongoose';
 import { config } from '../../../config/config.js';
 import { _model } from '../../_model.js';
 import type { IServiceResponse } from '../../interface/appResponse.interface.js';
@@ -10,8 +10,9 @@ import { AppException } from '../../lib/appException.lib.js';
 import { EmailService } from '../../lib/emailService.lib.js';
 import { TokenType } from '../../model/token.model.js';
 import { Role } from '../../model/user.model.js';
-import { IAdminAssignIMtoPMInput } from './dto/adminAssignIMtoPMInput.input.js';
+import type { IAdminAssignIMtoPMInput } from './dto/adminAssignIMtoPMInput.input.js';
 import type { ICreateUsersByAdminInput } from './dto/createUsersByAdmin.input.js';
+import { ICreateUsersByPMInput } from './dto/createUsersByPM.input.js';
 import type { ISigninInput } from './dto/signin.input.js';
 import type { ISignUpAdminInput } from './dto/signupAdmin.input.js';
 import type { IVerifyInput } from './dto/verify.input.js';
@@ -235,12 +236,57 @@ export class AuthService {
         throw new AppException('Procurement Manager not found', httpStatus.NOT_FOUND, {});
       }
 
-      procurementManager.parent = inspectionManager._id;
-      await procurementManager.save();
+      inspectionManager.parent = procurementManager._id;
+      await inspectionManager.save();
 
       return { success: true, message: 'adminAssignIMtoPM success', data: { procurementManager } };
     } catch (error) {
       AppException.exceptionHandler(error, 'adminAssignIMtoPM failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async createUsersByPM(createUsersByPMInput: ICreateUsersByPMInput): Promise<IServiceResponse> {
+    try {
+      const emailExist = await _model.userModel.findOne({
+        email: createUsersByPMInput.email,
+      });
+
+      if (emailExist) {
+        throw new AppException('Email already exist', httpStatus.BAD_REQUEST, {});
+      }
+
+      const phoneExist = await _model.userModel.findOne({
+        phoneNumber: createUsersByPMInput.phoneNumber,
+      });
+
+      if (phoneExist) {
+        throw new AppException('Phone number already exist', httpStatus.BAD_REQUEST, {});
+      }
+
+      const verifyToken = jwt.sign({ email: createUsersByPMInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, {
+        expiresIn: config.tokenExpiration.VERIFY_TOKEN_EXPIRATION,
+      });
+
+      await EmailService.sendEmail('User Verification Link', `token: ${verifyToken}`, createUsersByPMInput.email);
+
+      await _model.tokenModel.create({ email: createUsersByPMInput.email, token: verifyToken, tokenType: TokenType.VERIFY_TOKEN });
+
+      const passwordHash = await bcryptjs.hash(createUsersByPMInput.password, 10);
+
+      const user = await _model.userModel.create({
+        firstName: createUsersByPMInput.firstName,
+        lastName: createUsersByPMInput.lastName,
+        email: createUsersByPMInput.email,
+        passwordHash: passwordHash,
+        dob: createUsersByPMInput.dob,
+        phoneNumber: createUsersByPMInput.phoneNumber,
+        role: createUsersByPMInput.role,
+      });
+
+      return { success: true, message: 'createUsersByPM success, proceed to verification', data: { user } };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'createUsersByPM failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;
     }
   }

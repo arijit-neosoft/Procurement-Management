@@ -31,3 +31,7 @@ authRoute.post('/createUsersByAdmin', [authMiddleware], (req: Request, res: Resp
 authRoute.put('/adminAssignIMtoPM', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
   authController.adminAssignIMtoPM(req, res, next);
 });
+
+authRoute.post('/createUsersByPM', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
+  authController.createUsersByPM(req, res, next);
+});
