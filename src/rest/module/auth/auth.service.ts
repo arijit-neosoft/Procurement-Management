@@ -10,6 +10,7 @@ import { AppException } from '../../lib/appException.lib.js';
 import { EmailService } from '../../lib/emailService.lib.js';
 import { TokenType } from '../../model/token.model.js';
 import { Role } from '../../model/user.model.js';
+import { IAdminAssignIMtoPMInput } from './dto/adminAssignIMtoPMInput.input.js';
 import type { ICreateUsersByAdminInput } from './dto/createUsersByAdmin.input.js';
 import type { ISigninInput } from './dto/signin.input.js';
 import type { ISignUpAdminInput } from './dto/signupAdmin.input.js';
@@ -215,6 +216,31 @@ export class AuthService {
       return { success: true, message: 'createUsersByAdmin success, proceed to verification', data: { user } };
     } catch (error) {
       AppException.exceptionHandler(error, 'createUsersByAdmin failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async adminAssignIMtoPM(adminAssignIMtoPMInput: IAdminAssignIMtoPMInput): Promise<IServiceResponse> {
+    try {
+      const { inspectionManagerId, procurementManagerId } = adminAssignIMtoPMInput;
+
+      const inspectionManager = await _model.userModel.findById(inspectionManagerId);
+      const procurementManager = await _model.userModel.findById(procurementManagerId);
+
+      if (!inspectionManager) {
+        throw new AppException('Inspection Manager not found', httpStatus.NOT_FOUND, {});
+      }
+
+      if (!procurementManager) {
+        throw new AppException('Procurement Manager not found', httpStatus.NOT_FOUND, {});
+      }
+
+      procurementManager.parent = inspectionManager._id;
+      await procurementManager.save();
+
+      return { success: true, message: 'adminAssignIMtoPM success', data: { procurementManager } };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'adminAssignIMtoPM failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;
     }
   }
