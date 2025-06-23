@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import { AppException } from '../../lib/appException.lib.js';
 import { AppResponse } from '../../lib/appResponse.lib.js';
 import type { AuthService } from './auth.service.js';
+import { signinInputSchema } from './dto/signin.input.js';
 import { signupAdminSchema } from './dto/signupAdmin.input.js';
 import { verifyInputSchema } from './dto/verify.input.js';
 import { verifyLinkInputSchema } from './dto/verifyLInk.input.js';
@@ -42,7 +43,7 @@ export class AuthController {
 
       AppResponse.responseHandler({
         res: res,
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
         responseType: appResponse,
       });
     } catch (error) {
@@ -62,7 +63,27 @@ export class AuthController {
 
       AppResponse.responseHandler({
         res: res,
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
+        responseType: appResponse,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async signin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const validationResult = signinInputSchema.safeParse(req.body);
+
+      if (!validationResult.success) {
+        throw new AppException('signin validation failed', httpStatus.BAD_REQUEST, validationResult.error);
+      }
+
+      const appResponse = await this.authService.signin(validationResult.data);
+
+      AppResponse.responseHandler({
+        res: res,
+        statusCode: httpStatus.OK,
         responseType: appResponse,
       });
     } catch (error) {

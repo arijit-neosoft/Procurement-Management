@@ -10,3 +10,15 @@ const authController = new AuthController(authService);
 authRoute.post('/signupAdmin', [], (req: Request, res: Response, next: NextFunction) => {
   authController.signupAdmin(req, res, next);
 });
+
+authRoute.get('/verifyLink', [], (req: Request, res: Response, next: NextFunction) => {
+  authController.verifyLink(req, res, next);
+});
+
+authRoute.get('/verify', [], (req: Request, res: Response, next: NextFunction) => {
+  authController.verify(req, res, next);
+});
+
+authRoute.get('/signin', [], (req: Request, res: Response, next: NextFunction) => {
+  authController.signin(req, res, next);
+});

@@ -55,13 +55,13 @@ export class AuthService {
       const user = await _model.userModel.findOne({ email: verifyLinkInput.email });
 
       if (!user) {
-        throw new AppException('Invalid user', httpStatus.BAD_REQUEST, { email: verifyLinkInput.email });
+        throw new AppException('Invalid user', httpStatus.BAD_REQUEST, {});
       }
 
       const passwordCompare = await bcryptjs.compare(verifyLinkInput.password, user.passwordHash);
 
       if (!passwordCompare) {
-        throw new AppException('Invalid Credentials', httpStatus.BAD_REQUEST, { email: verifyLinkInput.email });
+        throw new AppException('Invalid Credentials', httpStatus.BAD_REQUEST, {});
       }
 
       const verifyToken = jwt.sign({ id: user.id, email: verifyLinkInput.email }, config.jwt.JWT_VERIFY_TOKEN_SECRET, {
@@ -70,11 +70,16 @@ export class AuthService {
 
       await EmailService.sendEmail('User Verification Link', `token: ${verifyToken}`, verifyLinkInput.email);
 
-      await _model.tokenModel.create({
-        email: verifyLinkInput.email,
-        token: verifyToken,
-        tokenType: TokenType.VERIFY_TOKEN,
-      });
+      await _model.tokenModel.updateOne(
+        { email: verifyLinkInput.email, tokenType: TokenType.VERIFY_TOKEN }, // Filter
+        {
+          $set: {
+            token: verifyToken,
+            updatedAt: new Date(),
+          },
+        },
+        { upsert: true }
+      );
 
       return { success: true, message: 'verifyLink sent successfully', data: {} };
     } catch (error) {
@@ -85,9 +90,9 @@ export class AuthService {
 
   async verify(verifyInput: IVerifyInput): Promise<IServiceResponse> {
     try {
-      const decoded = jwt.verify(verifyInput.verify_token, config.jwt.JWT_VERIFY_TOKEN_SECRET) as IJwtPayload;
+      const decoded = jwt.verify(verifyInput.verifyToken, config.jwt.JWT_VERIFY_TOKEN_SECRET) as IJwtPayload;
 
-      const token_exist = await _model.tokenModel.findOne({ token: verifyInput.verify_token, email: decoded.email });
+      const token_exist = await _model.tokenModel.findOne({ token: verifyInput.verifyToken, email: decoded.email });
 
       if (!token_exist) {
         throw new AppException('Invalid Token', httpStatus.BAD_REQUEST, {});
@@ -100,7 +105,7 @@ export class AuthService {
       }
 
       await _model.userModel.updateOne({ email: decoded.email }, { verified: true });
-      await _model.tokenModel.deleteOne({ token: verifyInput.verify_token, email: decoded.email });
+      await _model.tokenModel.deleteOne({ token: verifyInput.verifyToken, email: decoded.email });
 
       return { success: true, message: 'verify success', data: { email: decoded.email } };
     } catch (error) {
