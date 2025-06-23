@@ -15,15 +15,15 @@ declare global {
   }
 }
 
-export async function auth_middleware(req: Request, res: Response, next: NextFunction) {
+export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
-    const access_token = req.headers?.authorization?.slice(7);
+    const accessToken = req.headers?.authorization?.slice(7);
 
-    if (!access_token) {
+    if (!accessToken) {
       throw new AppException('Authentication Failed', httpStatus.UNAUTHORIZED, {});
     }
 
-    const decoded = jwt.verify(access_token, config.jwt.JWT_ACCESS_TOKEN_SECRET) as IJwtPayload;
+    const decoded = jwt.verify(accessToken, config.jwt.JWT_ACCESS_TOKEN_SECRET) as IJwtPayload;
 
     const user = await _model.userModel.findOne({ email: decoded.email });
 

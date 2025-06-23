@@ -1,4 +1,5 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
+import { authMiddleware } from '../../middleware/auth.middleware.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 
@@ -23,6 +24,6 @@ authRoute.get('/signin', [], (req: Request, res: Response, next: NextFunction) =
   authController.signin(req, res, next);
 });
 
-authRoute.post('/createUsersByAdmin', [], (req: Request, res: Response, next: NextFunction) => {
+authRoute.post('/createUsersByAdmin', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
   authController.createUsersByAdmin(req, res, next);
 });

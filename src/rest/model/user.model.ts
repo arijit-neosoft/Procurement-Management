@@ -18,6 +18,7 @@ export interface IUser {
   verified: boolean;
   active: boolean;
   role: Role;
+  parent: ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,6 +34,7 @@ const schema = new Schema(
     verified: { type: Boolean, default: false, required: true },
     active: { type: Boolean, default: true, required: true },
     role: { type: String, enum: Object.values(Role), default: Role.ADMIN, required: true },
+    parent: { type: Schema.Types.ObjectId, ref: 'user', default: null, required: false },
   },
   { timestamps: true }
 );

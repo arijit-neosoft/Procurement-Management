@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongoose';
 import { config } from '../../../config/config.js';
 import { _model } from '../../_model.js';
 import type { IServiceResponse } from '../../interface/appResponse.interface.js';
@@ -8,7 +9,8 @@ import type { IJwtPayload } from '../../interface/jwt.interface.js';
 import { AppException } from '../../lib/appException.lib.js';
 import { EmailService } from '../../lib/emailService.lib.js';
 import { TokenType } from '../../model/token.model.js';
-import { ICreateUsersByAdminInput } from './dto/createUsersByAdmin.input.js';
+import { Role } from '../../model/user.model.js';
+import type { ICreateUsersByAdminInput } from './dto/createUsersByAdmin.input.js';
 import type { ISigninInput } from './dto/signin.input.js';
 import type { ISignUpAdminInput } from './dto/signupAdmin.input.js';
 import type { IVerifyInput } from './dto/verify.input.js';
@@ -157,7 +159,7 @@ export class AuthService {
     }
   }
 
-  async createUsersByAdmin(createUsersByAdminInput: ICreateUsersByAdminInput): Promise<IServiceResponse> {
+  async createUsersByAdmin(adminUserId: ObjectId, createUsersByAdminInput: ICreateUsersByAdminInput): Promise<IServiceResponse> {
     try {
       const emailExist = await _model.userModel.findOne({
         email: createUsersByAdminInput.email,
@@ -184,6 +186,21 @@ export class AuthService {
       await _model.tokenModel.create({ email: createUsersByAdminInput.email, token: verifyToken, tokenType: TokenType.VERIFY_TOKEN });
 
       const passwordHash = await bcryptjs.hash(createUsersByAdminInput.password, 10);
+
+      if (createUsersByAdminInput.role === Role.INSPECTION_MANAGER) {
+        const user = await _model.userModel.create({
+          firstName: createUsersByAdminInput.firstName,
+          lastName: createUsersByAdminInput.lastName,
+          email: createUsersByAdminInput.email,
+          passwordHash: passwordHash,
+          dob: createUsersByAdminInput.dob,
+          phoneNumber: createUsersByAdminInput.phoneNumber,
+          role: createUsersByAdminInput.role,
+          parent: adminUserId,
+        });
+
+        return { success: true, message: 'createUsersByAdmin success, proceed to verification', data: { user } };
+      }
 
       const user = await _model.userModel.create({
         firstName: createUsersByAdminInput.firstName,
