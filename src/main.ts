@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { type ErrorRequestHandler, type NextFunction, type Request, type Response } from 'express';
+import express from 'express';
 import { config } from './config/config.js';
 import { mongodb } from './db/mongodb.js';
 import { _router } from './rest/_router.js';
@@ -14,7 +14,7 @@ async function main() {
     await mongodb();
 
     /* app router */
-    app.use(_router);
+    app.use('/v1', _router);
 
     /* middlewares */
     app.use(express.json({ limit: '50mb' }));
