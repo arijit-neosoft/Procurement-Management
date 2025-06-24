@@ -9,6 +9,7 @@ export enum QuestionType {
 }
 
 export interface IQuestion {
+  _id: ObjectId;
   questionText: string;
   type: QuestionType;
   options?: string[];

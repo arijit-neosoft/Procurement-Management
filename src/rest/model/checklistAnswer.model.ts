@@ -29,6 +29,4 @@ const checklistAnswerSchema = new Schema(
   { timestamps: true }
 );
 
-export default model('ChecklistAnswer', checklistAnswerSchema);
-
 export const checklistAnswerModel = model<IChecklistAnswer>('checklistAnswer', checklistAnswerSchema, 'checklistAnswer');
