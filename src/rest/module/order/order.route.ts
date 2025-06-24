@@ -11,3 +11,11 @@ const orderController = new OrderController(orderService);
 orderRoute.post('/createOrder', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
   orderController.createOrder(req, res, next);
 });
+
+orderRoute.get('/getOrderById', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
+  orderController.getOrderById(req, res, next);
+});
+
+orderRoute.patch('/updateOrderStatus', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
+  orderController.updateOrderStatus(req, res, next);
+});
