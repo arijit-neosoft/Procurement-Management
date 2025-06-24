@@ -1,4 +1,3 @@
-// models/Checklist.js
 import { model, type ObjectId, Schema } from 'mongoose';
 
 export enum QuestionType {
@@ -42,5 +41,7 @@ const checklistSchema = new Schema(
   },
   { timestamps: true }
 );
+
+checklistSchema.index({ title: 1, client: 1 }, { unique: true });
 
 export const checklistModel = model<IChecklist>('checklist', checklistSchema, 'checklist');

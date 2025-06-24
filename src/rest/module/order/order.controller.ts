@@ -5,6 +5,7 @@ import { AppException } from '../../lib/appException.lib.js';
 import { AppResponse } from '../../lib/appResponse.lib.js';
 import { Role } from '../../model/user.model.js';
 import { createOrderInputSchema } from './dto/createOrder.input.js';
+import { linkOrderWithChecklistInputSchema } from './dto/linkOrderAndChecklist.input.js';
 import { updateOrderStatusInputSchema } from './dto/updateOrderStatusInput.input.js';
 import type { OrderService } from './order.service.js';
 
@@ -55,6 +56,23 @@ export class OrderController {
       }
 
       const serviceResponse = await this.orderService.updateOrderStatus(validationResult.data);
+
+      AppResponse.responseHandler({ res: res, statusCode: httpStatus.OK, responseType: serviceResponse });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Roles(Role.PROCUREMENT_MANAGER)
+  async linkOrderWithChecklist(req: Request, res: Response, next: NextFunction) {
+    try {
+      const validationResult = linkOrderWithChecklistInputSchema.safeParse(req.body);
+
+      if (!validationResult.success) {
+        throw new AppException('linkOrderWithChecklist validation failed', httpStatus.BAD_REQUEST, validationResult.error);
+      }
+
+      const serviceResponse = await this.orderService.linkOrderWithChecklist(validationResult.data);
 
       AppResponse.responseHandler({ res: res, statusCode: httpStatus.OK, responseType: serviceResponse });
     } catch (error) {

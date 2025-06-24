@@ -19,3 +19,7 @@ orderRoute.get('/getOrderById', [authMiddleware], (req: Request, res: Response, 
 orderRoute.patch('/updateOrderStatus', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
   orderController.updateOrderStatus(req, res, next);
 });
+
+orderRoute.patch('/linkOrderWithChecklist', [authMiddleware], (req: Request, res: Response, next: NextFunction) => {
+  orderController.linkOrderWithChecklist(req, res, next);
+});

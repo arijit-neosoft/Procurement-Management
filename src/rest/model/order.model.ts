@@ -23,13 +23,13 @@ export interface IOrder {
 const orderSchema = new Schema(
   {
     name: { type: String, required: true },
-    description: { type: String, required: false, default: '' },
+    description: { type: String, default: '' },
     client: { type: Schema.Types.ObjectId, ref: 'user', required: true },
     procurementManager: { type: Schema.Types.ObjectId, ref: 'user', required: true },
-    inspectionManager: { type: Schema.Types.ObjectId, ref: 'user', required: false, default: null },
-    checklist: { type: Schema.Types.ObjectId, ref: 'checklist', required: false, default: null },
-    checklistAnswer: { type: Schema.Types.ObjectId, ref: 'checklistAnswer', required: false, default: null },
-    orderStatus: { type: String, enum: Object.values(OrderStatus), required: true, default: OrderStatus.CREATED },
+    inspectionManager: { type: Schema.Types.ObjectId, ref: 'user', default: null },
+    checklist: { type: Schema.Types.ObjectId, ref: 'checklist', default: null },
+    checklistAnswer: { type: Schema.Types.ObjectId, ref: 'checklistAnswer', default: null },
+    orderStatus: { type: String, enum: Object.values(OrderStatus), default: OrderStatus.CREATED },
   },
   { timestamps: true }
 );

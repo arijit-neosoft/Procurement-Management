@@ -20,6 +20,18 @@ export class UserService {
 
   async getIMs(user: IUser): Promise<IServiceResponse> {
     try {
+      if (user.role === Role.ADMIN) {
+        const imList = await _model.userModel.find({
+          role: Role.INSPECTION_MANAGER,
+        });
+
+        return {
+          success: true,
+          message: 'getIMs success',
+          data: imList,
+        };
+      }
+
       if (user.role === Role.PROCUREMENT_MANAGER) {
         const imList = await _model.userModel.find({
           role: Role.INSPECTION_MANAGER,
@@ -33,15 +45,7 @@ export class UserService {
         };
       }
 
-      const imList = await _model.userModel.find({
-        role: Role.INSPECTION_MANAGER,
-      });
-
-      return {
-        success: true,
-        message: 'getIMs success',
-        data: imList,
-      };
+      return { success: false, message: 'NO USER', data: {} };
     } catch (error) {
       AppException.exceptionHandler(error, 'getIMs failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;

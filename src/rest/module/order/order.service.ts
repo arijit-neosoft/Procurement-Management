@@ -3,6 +3,7 @@ import { _model } from '../../_model.js';
 import type { IServiceResponse } from '../../interface/appResponse.interface.js';
 import { AppException } from '../../lib/appException.lib.js';
 import type { ICreateOrderInput } from './dto/createOrder.input.js';
+import type { ILinkOrderWithChecklistInput } from './dto/linkOrderAndChecklist.input.js';
 import type { IUpdateOrderStatusInput } from './dto/updateOrderStatusInput.input.js';
 
 export class OrderService {
@@ -41,8 +42,8 @@ export class OrderService {
         .findById(orderId)
         .populate('client')
         .populate('procurementManager')
-        .populate('inspectionManager');
-      // .populate('checklist')
+        .populate('inspectionManager')
+        .populate('checklist');
       // .populate('checklistAnswer');
 
       if (!order) {
@@ -73,6 +74,38 @@ export class OrderService {
       return { success: true, message: 'updateOrderStatus success', data: order };
     } catch (error) {
       AppException.exceptionHandler(error, 'updateOrderStatus failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
+    }
+  }
+
+  async linkOrderWithChecklist(linkOrderWithChecklistInput: ILinkOrderWithChecklistInput): Promise<IServiceResponse> {
+    try {
+      const existingOrder = await _model.orderModel.findOne({ _id: linkOrderWithChecklistInput.orderId });
+      if (!existingOrder) {
+        throw new AppException('Order not found', httpStatus.NOT_FOUND, {});
+      }
+
+      const existingChecklist = await _model.checklistModel.findOne({ _id: linkOrderWithChecklistInput.checklistId });
+      if (!existingChecklist) {
+        throw new AppException('Checklist not found', httpStatus.NOT_FOUND, {});
+      }
+
+      if (existingOrder.client.toString() !== existingChecklist.client.toString()) {
+        throw new AppException('Order and checklist must belong to the same client', httpStatus.BAD_REQUEST, {});
+      }
+
+      const order = await _model.orderModel.updateOne(
+        {
+          _id: linkOrderWithChecklistInput.orderId,
+        },
+        {
+          checklist: linkOrderWithChecklistInput.checklistId,
+        }
+      );
+
+      return { success: true, message: 'linkOrderAndChecklist success', data: order };
+    } catch (error) {
+      AppException.exceptionHandler(error, 'linkOrderAndChecklist failed', httpStatus.INTERNAL_SERVER_ERROR, {});
       throw error;
     }
   }

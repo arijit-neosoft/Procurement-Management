@@ -31,10 +31,10 @@ const userSchema = new Schema(
     passwordHash: { type: String, required: true },
     dob: { type: String, required: true },
     phoneNumber: { type: String, required: false },
-    verified: { type: Boolean, default: false, required: true },
-    active: { type: Boolean, default: true, required: true },
-    role: { type: String, enum: Object.values(Role), default: Role.ADMIN, required: true },
-    parent: { type: Schema.Types.ObjectId, ref: 'user', default: null, required: false },
+    verified: { type: Boolean, default: false },
+    active: { type: Boolean, default: true },
+    role: { type: String, enum: Object.values(Role), default: Role.ADMIN },
+    parent: { type: Schema.Types.ObjectId, ref: 'user', default: null },
   },
   { timestamps: true }
 );
