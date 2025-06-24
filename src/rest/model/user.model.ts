@@ -23,7 +23,7 @@ export interface IUser {
   updatedAt: Date;
 }
 
-const schema = new Schema(
+const userSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -39,4 +39,4 @@ const schema = new Schema(
   { timestamps: true }
 );
 
-export const userModel = model<IUser>('user', schema, 'user');
+export const userModel = model<IUser>('user', userSchema, 'user');

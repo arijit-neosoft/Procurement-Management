@@ -16,7 +16,7 @@ interface IToken {
   updatedAt: Date;
 }
 
-const schema = new Schema(
+const tokenSchema = new Schema(
   {
     email: { type: String, required: true },
     token: { type: String, required: true },
@@ -26,6 +26,6 @@ const schema = new Schema(
   { timestamps: true }
 );
 
-schema.index({ email: 1, tokenType: 1 }, { unique: true });
+tokenSchema.index({ email: 1, tokenType: 1 }, { unique: true });
 
-export const tokenModel = model<IToken>('token', schema, 'token');
+export const tokenModel = model<IToken>('token', tokenSchema, 'token');

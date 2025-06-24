@@ -20,7 +20,7 @@ export interface IOrder {
   updatedAt: Date;
 }
 
-const schema = new Schema(
+const orderSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: false, default: '' },
@@ -34,6 +34,6 @@ const schema = new Schema(
   { timestamps: true }
 );
 
-schema.index({ name: 1, client: 1 }, { unique: true });
+orderSchema.index({ name: 1, client: 1 }, { unique: true });
 
-export const orderModel = model<IOrder>('order', schema, 'order');
+export const orderModel = model<IOrder>('order', orderSchema, 'order');
