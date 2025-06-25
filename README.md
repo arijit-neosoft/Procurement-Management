@@ -14,6 +14,6 @@
 
 - `npm i`
 - `docker compose -f ./compose.db.yaml --env-file ./.env up --build -d`
-- `npm run start:dev`
+- `npm run start:dev `
 
 ---
