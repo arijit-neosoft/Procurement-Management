@@ -5,6 +5,7 @@ import { AppException } from '../../lib/appException.lib.js';
 import type { ICreateOrderInput } from './dto/createOrder.input.js';
 import type { ILinkOrderWithChecklistInput } from './dto/linkOrderAndChecklist.input.js';
 import type { IUpdateOrderStatusInput } from './dto/updateOrderStatusInput.input.js';
+import { IGetOrderByIdInput } from './dto/getOrderById.input.js';
 
 export class OrderService {
   async createOrder(createOrderInput: ICreateOrderInput): Promise<IServiceResponse> {
@@ -36,15 +37,18 @@ export class OrderService {
     }
   }
 
-  async getOrderById(orderId: string): Promise<IServiceResponse> {
+  async getOrderById(getOrderByIdInput: IGetOrderByIdInput): Promise<IServiceResponse> {
     try {
+
+      const {orderId} = getOrderByIdInput;
+
       const order = await _model.orderModel
         .findById(orderId)
         .populate('client')
         .populate('procurementManager')
         .populate('inspectionManager')
-        .populate('checklist');
-      // .populate('checklistAnswer');
+        .populate('checklist')
+        .populate('checklistAnswer');
 
       if (!order) {
         throw new AppException('Order not found', httpStatus.NOT_FOUND, {});

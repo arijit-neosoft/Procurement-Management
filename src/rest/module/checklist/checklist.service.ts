@@ -10,7 +10,7 @@ export class ChecklistService {
     try {
       const existingChecklist = await _model.checklistModel.findOne({
         title: createChecklistInput.title,
-        client: createChecklistInput.client,
+        client: createChecklistInput.clientId,
       });
 
       if (existingChecklist) {
@@ -19,7 +19,7 @@ export class ChecklistService {
 
       const checklist = await _model.checklistModel.create({
         title: createChecklistInput.title,
-        client: createChecklistInput.client,
+        client: createChecklistInput.clientId,
         createdBy: pmUser._id,
         questions: createChecklistInput.questions,
       });

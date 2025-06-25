@@ -8,6 +8,7 @@ import { createOrderInputSchema } from './dto/createOrder.input.js';
 import { linkOrderWithChecklistInputSchema } from './dto/linkOrderAndChecklist.input.js';
 import { updateOrderStatusInputSchema } from './dto/updateOrderStatusInput.input.js';
 import type { OrderService } from './order.service.js';
+import { getOrderByIdInputSchema } from './dto/getOrderById.input.js';
 
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
@@ -32,13 +33,13 @@ export class OrderController {
   @Roles(Role.ADMIN, Role.PROCUREMENT_MANAGER, Role.INSPECTION_MANAGER, Role.CLIENT)
   async getOrderById(req: Request, res: Response, next: NextFunction) {
     try {
-      const orderId = req.body?.orderId;
+      const validationResult = getOrderByIdInputSchema.safeParse(req.body);
 
-      if (!orderId) {
-        throw new AppException('Order ID is required', httpStatus.BAD_REQUEST, {});
+      if (!validationResult.success) {
+        throw new AppException('createOrder validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const serviceResponse = await this.orderService.getOrderById(orderId);
+      const serviceResponse = await this.orderService.getOrderById(validationResult.data);
 
       AppResponse.responseHandler({ res: res, statusCode: httpStatus.OK, responseType: serviceResponse });
     } catch (error) {

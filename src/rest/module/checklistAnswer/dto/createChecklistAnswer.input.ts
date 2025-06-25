@@ -6,7 +6,7 @@ export const createChecklistAnswerInputSchema = z.object({
   answers: z
     .array(
       z.object({
-        questionId: z.string().length(24, 'Invalid questionId'),
+        questionId: z.string().nonempty().regex(/^[a-fA-F0-9]{24}$/, 'Invalid MongoDB ObjectId'),
         value: z.union([z.boolean(), z.string(), z.array(z.string())]),
       })
     )

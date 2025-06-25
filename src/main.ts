@@ -10,7 +10,6 @@ import { AppResponse } from './rest/lib/appResponse.lib.js';
 async function main() {
   try {
     /* init */
-
     const app = express();
 
     /* db */

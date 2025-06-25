@@ -12,7 +12,7 @@ const questionInputSchema = z.object({
 
 export const createChecklistInputSchema = z.object({
   title: z.string().min(1, 'Title is required'),
-  client: z.string().min(1, 'Client ID is required'),
+  clientId: z.string().nonempty().regex(/^[a-fA-F0-9]{24}$/, 'Invalid MongoDB ObjectId'),
   questions: z.array(questionInputSchema).min(1, 'At least one question is required'),
 });
 
