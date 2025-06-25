@@ -4,11 +4,15 @@ import type { IServiceResponse } from '../../interface/appResponse.interface.js'
 import { AppException } from '../../lib/appException.lib.js';
 import type { IChecklist } from '../../model/checklist.model.js';
 import { OrderStatus } from '../../model/order.model.js';
+import type { IUser } from '../../model/user.model.js';
+import type { ICreateChecklistAnswerInput } from './dto/createChecklistAnswer.input.js';
 
 export class ChecklistAnswerService {
-  async createChecklistAnswer(body: any): Promise<IServiceResponse> {
+  async createChecklistAnswer(user: IUser, body: ICreateChecklistAnswerInput): Promise<IServiceResponse> {
     try {
-      const { orderId, userId, answers } = body;
+      const { orderId, answers } = body;
+
+      const userId = user._id;
 
       const order = await _model.orderModel.findById(orderId).populate('checklist');
 
