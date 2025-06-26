@@ -4,12 +4,12 @@
   "type": "module",
   "license": "UNLICENSED",
   "private": true,
-  "author": "Arijit Das <arijit@itobuz.com>",
+  "author": "Arijit Das <arijit.das@neosoftmail.com>",
   "description": "",
   "main": "./src/main.ts",
-
   "scripts": {
     "clean": "rm -rf ./dist",
+    "reset": "rm -rf ./node_modules",
     "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts",
     "format": "biome format --write ./src",
     "lint": "biome lint --write ./src && biome check --write ./src",
@@ -17,7 +17,7 @@
     "pre-commit": "npm run format && npm run lint && npm run type-check"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.0",
+    "@biomejs/biome": "2.0.5",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.12.4",
     "@swc/helpers": "^0.5.17",
