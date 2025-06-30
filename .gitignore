@@ -5,9 +5,11 @@
 /dist
 /debug
 /log
+/uploads/*
 
 .env*
 !.env.sample
 .DS_Store
 *.pdf
 *.pem
+!/uploads/.gitkeep

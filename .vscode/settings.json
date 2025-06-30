@@ -20,7 +20,7 @@
     "*.md": "vscode.markdown.preview.editor"
   },
   "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
@@ -32,10 +32,10 @@
     "editor.defaultFormatter": "mtxr.sqltools"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "indentRainbow.includedLanguages": ["yaml", "dockercompose"],
   "code-runner.executorMap": {

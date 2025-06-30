@@ -39,8 +39,7 @@ export class OrderService {
 
   async getOrderById(getOrderByIdInput: IGetOrderByIdInput): Promise<IServiceResponse> {
     try {
-
-      const {orderId} = getOrderByIdInput;
+      const { orderId } = getOrderByIdInput;
 
       const order = await _model.orderModel
         .findById(orderId)

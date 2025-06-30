@@ -8,9 +8,14 @@ import type { IUser } from '../../model/user.model.js';
 import type { ICreateChecklistAnswerInput } from './dto/createChecklistAnswer.input.js';
 
 export class ChecklistAnswerService {
-  async createChecklistAnswer(user: IUser, body: ICreateChecklistAnswerInput): Promise<IServiceResponse> {
+  async createChecklistAnswer(
+    user: IUser,
+    payload: ICreateChecklistAnswerInput,
+    file: Express.Multer.File,
+    filePath: string
+  ): Promise<IServiceResponse> {
     try {
-      const { orderId, answers } = body;
+      const { orderId, answers } = payload;
 
       const userId = user._id;
 
@@ -27,7 +32,7 @@ export class ChecklistAnswerService {
       }
 
       if (order.checklistAnswer) {
-        throw new AppException('Checklist already submitted for this order', httpStatus.BAD_REQUEST, {});
+        throw new AppException(`Checklist already submitted for this order: ${order._id}`, httpStatus.BAD_REQUEST, {});
       }
 
       for (const question of checklist.questions) {
@@ -91,15 +96,7 @@ export class ChecklistAnswerService {
       });
 
       // Update order
-      await _model.orderModel.updateOne(
-        {
-          _id: order._id,
-        },
-        {
-          checklistAnswer: created._id,
-          orderStatus: OrderStatus.INSPECTION_DONE,
-        }
-      );
+      await _model.orderModel.updateOne({ _id: order._id }, { checklistAnswer: created._id, orderStatus: OrderStatus.INSPECTION_DONE });
 
       return { success: true, message: 'createChecklistAnswer success', data: created };
     } catch (error) {

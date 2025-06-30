@@ -13,13 +13,19 @@ export class ChecklistAnswerController {
   @Roles(Role.INSPECTION_MANAGER)
   async createChecklistAnswer(req: Request, res: Response, next: NextFunction) {
     try {
-      const validationResult = createChecklistAnswerInputSchema.safeParse(req.body);
+      if (!req.file) throw new AppException('createChecklist - file not available', httpStatus.BAD_REQUEST, {});
+      if (!req.body.payload) throw new AppException('createChecklist - payload not available', httpStatus.BAD_REQUEST, {});
+
+      const filePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      console.log('[createChecklistAnswer]: file:', filePath);
+
+      const validationResult = createChecklistAnswerInputSchema.safeParse(JSON.parse(req.body.payload));
 
       if (!validationResult.success) {
         throw new AppException('createChecklist validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const serviceResponse = await this.checklistAnswerService.createChecklistAnswer(req.user, validationResult.data);
+      const serviceResponse = await this.checklistAnswerService.createChecklistAnswer(req.user, validationResult.data, req.file, filePath);
 
       AppResponse.responseHandler({ res: res, statusCode: httpStatus.CREATED, responseType: serviceResponse });
     } catch (error) {

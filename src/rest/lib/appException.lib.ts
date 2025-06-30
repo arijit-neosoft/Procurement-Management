@@ -13,8 +13,6 @@ export class AppException extends Error {
   public name = 'AppException';
 
   public static exceptionHandler(error: unknown, message: string, status_code: number, data: object) {
-    console.log('\n[Error]:', error, '\n');
-
     if (error instanceof AppException && error.name === 'AppException') {
       throw new AppException(error.message, error.statusCode, error.data);
     }

@@ -11,7 +11,7 @@
     "clean": "rm -rf ./dist",
     "reset": "rm -rf ./node_modules",
     "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts",
-    "format": "biome format --write ./src",
+    "format": "prettier --config ./prettier.config.js --write ./src",
     "lint": "biome lint --write ./src && biome check --write ./src",
     "type-check": "tsc --noEmit",
     "pre-commit": "npm run format && npm run lint && npm run type-check"
@@ -25,12 +25,14 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^1.4.13",
     "@types/node": "^24.0.3",
     "@types/node-schedule": "^2.1.7",
     "@types/nodemailer": "^6.4.17",
     "@types/uuid": "^10.0.0",
     "@vercel/ncc": "^0.38.3",
     "esbuild": "^0.25.5",
+    "prettier": "^3.6.2",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
@@ -45,6 +47,7 @@
     "http-status": "^2.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.0",
+    "multer": "^2.0.1",
     "nodemailer": "^7.0.3",
     "uuid": "^11.1.0",
     "zod": "^3.25.67"
