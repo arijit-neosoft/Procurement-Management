@@ -1,8 +1,10 @@
-import { type NextFunction, type Request, type Response, Router } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import { Router } from 'express';
+
+import { _multer } from '../../lib/multer.lib.js';
 import { authMiddleware } from '../../middleware/auth.middleware.js';
 import { ChecklistAnswerController } from './checklistAnswer.controller.js';
 import { ChecklistAnswerService } from './checklistAnswer.service.js';
-import { _multer } from '../../lib/multer.lib.js';
 
 export const checklistAnswerRoute = Router({ caseSensitive: true, strict: true });
 

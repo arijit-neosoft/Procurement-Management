@@ -1,14 +1,15 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+
 import { Roles } from '../../decorator/roles.decorator.js';
 import { AppException } from '../../lib/appException.lib.js';
 import { AppResponse } from '../../lib/appResponse.lib.js';
 import { Role } from '../../model/user.model.js';
 import { createOrderInputSchema } from './dto/createOrder.input.js';
+import { getOrderByIdInputSchema } from './dto/getOrderById.input.js';
 import { linkOrderWithChecklistInputSchema } from './dto/linkOrderAndChecklist.input.js';
 import { updateOrderStatusInputSchema } from './dto/updateOrderStatusInput.input.js';
 import type { OrderService } from './order.service.js';
-import { getOrderByIdInputSchema } from './dto/getOrderById.input.js';
 
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}

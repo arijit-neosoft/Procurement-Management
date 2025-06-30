@@ -1,4 +1,5 @@
 import { connect } from 'mongoose';
+
 import { config } from '../config/config.js';
 
 export async function mongodb() {

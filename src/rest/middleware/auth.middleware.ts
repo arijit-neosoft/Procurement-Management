@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
+
 import { config } from '../../config/config.js';
 import { _model } from '../_model.js';
 import type { IJwtPayload } from '../interface/jwt.interface.js';

@@ -2,6 +2,7 @@ import bcryptjs from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import type { ObjectId } from 'mongoose';
+
 import { config } from '../../../config/config.js';
 import { _model } from '../../_model.js';
 import type { IServiceResponse } from '../../interface/appResponse.interface.js';

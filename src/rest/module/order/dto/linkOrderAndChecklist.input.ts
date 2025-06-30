@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { QuestionType } from '../../../model/checklist.model.js';
 
 export const QuestionTypeEnum = z.nativeEnum(QuestionType);

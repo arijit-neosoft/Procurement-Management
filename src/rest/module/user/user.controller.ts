@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+
 import { Roles } from '../../decorator/roles.decorator.js';
 import { AppResponse } from '../../lib/appResponse.lib.js';
 import { Role } from '../../model/user.model.js';

@@ -1,4 +1,6 @@
-import { type NextFunction, type Request, type Response, Router } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import { Router } from 'express';
+
 import { authMiddleware } from '../../middleware/auth.middleware.js';
 import { ChecklistController } from './checklist.controller.js';
 import { ChecklistService } from './checklist.service.js';

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { OrderStatus } from '../../../model/order.model.js';
 
 export const createOrderInputSchema = z.object({

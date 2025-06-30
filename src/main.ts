@@ -1,12 +1,15 @@
+import path from 'node:path';
+
 import cors from 'cors';
-import express, { type ErrorRequestHandler, type Request, type Response } from 'express';
+import type { ErrorRequestHandler, Request, Response } from 'express';
+import express from 'express';
 import httpStatus from 'http-status';
+
 import { config } from './config/config.js';
 import { mongodb } from './db/mongodb.js';
 import { _router } from './rest/_router.js';
 import type { AppException } from './rest/lib/appException.lib.js';
 import { AppResponse } from './rest/lib/appResponse.lib.js';
-import path from 'node:path';
 
 async function main() {
   try {

@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+
 import { AppException } from '../lib/appException.lib.js';
 
 export function Roles(...allowedRoles: string[]) {

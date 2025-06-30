@@ -1,4 +1,6 @@
-import { type NextFunction, type Request, type Response, Router } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import { Router } from 'express';
+
 import { authMiddleware } from '../../middleware/auth.middleware.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';

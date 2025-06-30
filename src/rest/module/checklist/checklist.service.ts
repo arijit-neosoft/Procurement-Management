@@ -1,4 +1,5 @@
 import httpStatus from 'http-status';
+
 import { _model } from '../../_model.js';
 import type { IServiceResponse } from '../../interface/appResponse.interface.js';
 import { AppException } from '../../lib/appException.lib.js';
