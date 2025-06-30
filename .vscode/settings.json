@@ -6,6 +6,9 @@
   "editor.suggest.selectionMode": "always",
   "editor.formatOnSave": true,
   "editor.wordWrap": "off",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
   "explorer.autoReveal": false,
   "explorer.compactFolders": false,
   "explorer.sortOrder": "type",

@@ -11,7 +11,7 @@
     "clean": "rm -rf ./dist",
     "reset": "rm -rf ./node_modules",
     "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts",
-    "format": "prettier --config ./prettier.config.js --write ./src ./*.{ts,js}",
+    "format": "prettier --config ./prettier.config.js --write ./src ./*.{ts,js,json}",
     "lint": "eslint --config ./eslint.config.js --fix ./src ./*.{ts,js}",
     "type-check": "tsc --noEmit",
     "pre-commit": "npm run format && npm run lint && npm run type-check"
