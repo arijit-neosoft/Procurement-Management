@@ -10,9 +10,9 @@ import type { ICreateChecklistAnswerInput } from './dto/createChecklistAnswer.in
 export class ChecklistAnswerService {
   async createChecklistAnswer(
     user: IUser,
-    payload: ICreateChecklistAnswerInput,
     file: Express.Multer.File,
-    filePath: string
+    filePath: string,
+    payload: ICreateChecklistAnswerInput
   ): Promise<IServiceResponse> {
     try {
       const { orderId, answers } = payload;

@@ -12,12 +12,12 @@
     "reset": "rm -rf ./node_modules",
     "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts",
     "format": "prettier --config ./prettier.config.js --write ./src",
-    "lint": "biome lint --write ./src && biome check --write ./src",
+    "lint": "eslint --config ./eslint.config.js --fix ./src",
     "type-check": "tsc --noEmit",
     "pre-commit": "npm run format && npm run lint && npm run type-check"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.5",
+    "@eslint/js": "^9.30.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.12.4",
     "@swc/helpers": "^0.5.17",
@@ -32,9 +32,12 @@
     "@types/uuid": "^10.0.0",
     "@vercel/ncc": "^0.38.3",
     "esbuild": "^0.25.5",
+    "eslint": "^9.30.0",
+    "globals": "^16.2.0",
     "prettier": "^3.6.2",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

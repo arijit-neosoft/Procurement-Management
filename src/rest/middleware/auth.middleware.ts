@@ -8,6 +8,7 @@ import { AppException } from '../lib/appException.lib.js';
 import type { IUser } from '../model/user.model.js';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       user: IUser;

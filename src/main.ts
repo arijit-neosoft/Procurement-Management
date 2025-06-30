@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { type ErrorRequestHandler, type NextFunction, type Request, type Response } from 'express';
+import express, { type ErrorRequestHandler, type Request, type Response } from 'express';
 import httpStatus from 'http-status';
 import { config } from './config/config.js';
 import { mongodb } from './db/mongodb.js';
@@ -26,7 +26,7 @@ async function main() {
     app.use('/v1', _router);
 
     /* error handling */
-    const errorHandler: ErrorRequestHandler = (error: AppException, req: Request, res: Response, next: NextFunction) => {
+    const errorHandler: ErrorRequestHandler = (error: AppException, req: Request, res: Response) => {
       AppResponse.responseHandler({
         res,
         statusCode: error.statusCode ?? httpStatus.INTERNAL_SERVER_ERROR,

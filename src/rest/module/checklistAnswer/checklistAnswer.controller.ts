@@ -25,7 +25,7 @@ export class ChecklistAnswerController {
         throw new AppException('createChecklist validation failed', httpStatus.BAD_REQUEST, validationResult.error);
       }
 
-      const serviceResponse = await this.checklistAnswerService.createChecklistAnswer(req.user, validationResult.data, req.file, filePath);
+      const serviceResponse = await this.checklistAnswerService.createChecklistAnswer(req.user, req.file, filePath, validationResult.data);
 
       AppResponse.responseHandler({ res: res, statusCode: httpStatus.CREATED, responseType: serviceResponse });
     } catch (error) {
