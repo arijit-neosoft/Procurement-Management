@@ -9,17 +9,9 @@ export default defineConfig([
   { files: ['**/*.{js,mjs,cjs,ts,mts,cts}'], languageOptions: { globals: globals.browser } },
   tseslint.configs.recommended,
   {
-    plugins: {
-      'simple-import-sort': simpleImportSort,
-    },
-    rules: {
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
-    },
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    plugins: { 'simple-import-sort': simpleImportSort },
+    rules: { 'simple-import-sort/imports': 'error', 'simple-import-sort/exports': 'error' },
   },
-  {
-    rules: {
-      '@typescript-eslint/consistent-type-imports': 'error',
-    },
-  },
+  { files: ['**/*.{js,mjs,cjs,ts,mts,cts}'], rules: { '@typescript-eslint/consistent-type-imports': 'error' } },
 ]);
