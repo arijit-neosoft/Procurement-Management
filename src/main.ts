@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 import cors from 'cors';
-import type { ErrorRequestHandler, Request, Response } from 'express';
+import type { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import express from 'express';
 import httpStatus from 'http-status';
 
@@ -25,11 +25,22 @@ async function main() {
     app.use(cors({ credentials: true, methods: ['HEAD,GET,POST,PUT,PATCH,DELETE'], origin: [] }));
     app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
+    /* base */
+    app.get('/', (req: Request, res: Response) => {
+      res.status(200).send('base: ok');
+    });
+
     /* app router */
     app.use('/v1', _router);
 
+    /* 404: Not Found */
+    app.use((req: Request, res: Response) => {
+      res.status(httpStatus.NOT_FOUND).send('404: Not Found');
+    });
+
     /* error handling */
-    const errorHandler: ErrorRequestHandler = (error: AppException, req: Request, res: Response) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const errorHandler: ErrorRequestHandler = (error: AppException, req: Request, res: Response, next: NextFunction) => {
       AppResponse.responseHandler({
         res,
         statusCode: error.statusCode ?? httpStatus.INTERNAL_SERVER_ERROR,

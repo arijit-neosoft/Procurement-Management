@@ -1,4 +1,4 @@
-import type { ObjectId} from 'mongoose';
+import type { ObjectId } from 'mongoose';
 import { model, Schema } from 'mongoose';
 
 export interface IAnswer {
