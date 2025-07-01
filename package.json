@@ -9,14 +9,16 @@
   "main": "./src/main.ts",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "reset": "rm -rf ./node_modules",
+    "clean:dependency": "rm -rf node_modules package-lock.json",
+    "build:esbuild": "npm run clean && node esbuild.config.js",
     "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts",
+    "start:prod": "node --env-file=./.env ./dist/src/main.cjs",
     "format": "prettier --config ./prettier.config.js --write ./src ./*.{ts,js,json}",
     "lint": "eslint --config ./eslint.config.js --fix ./src ./*.{ts,js}",
     "type-check": "tsc --noEmit",
     "pre-commit": "npm run format && npm run lint && npm run type-check"
   },
-  "devDependencies": {
+  "devDependencies": { 
     "@eslint/js": "^9.30.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.12.4",
