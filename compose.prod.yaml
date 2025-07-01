@@ -1,6 +1,19 @@
-name: procurement-management-db
+name: procurement-management-prod
 
 services:
+  app:
+    container_name: app
+    image: procurement-management:prod
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.prod
+      no_cache: true
+    restart: on-failure:3
+    depends_on:
+      - mongodb
+    ports:
+      - 4002:4002
+
   mongodb:
     # mongo out container uri     : mongodb://root:password@localhost:27017/ProcurementManagement?authSource=admin
     # mongo in container uri      : mongodb://root:password@mongodb:27017/ProcurementManagement?authSource=admin

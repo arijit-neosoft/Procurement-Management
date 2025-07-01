@@ -17,3 +17,9 @@
 - `npm run start:dev `
 
 ---
+
+## RUN - Prod
+
+- `docker compose -f ./compose.prod.yaml --env-file ./.env.prod up --build -d`
+
+---

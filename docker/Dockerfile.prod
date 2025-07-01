@@ -1,0 +1,14 @@
+
+FROM node:22.17.0-slim AS BUILD
+WORKDIR /app
+COPY . .
+RUN npm i
+RUN npm run pre-commit
+RUN npm run build:esbuild
+
+FROM node:22.17.0-slim AS RUN
+WORKDIR /app
+COPY --from=BUILD ./app/dist ./dist
+COPY --from=BUILD ./app/.env.prod ./.env
+EXPOSE 4002
+ENTRYPOINT [ "node", "--env-file=./.env", "./dist/src/main.cjs" ]
