@@ -362,7 +362,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"order2\",\n    \"description\": \"\",\n    \"clientId\": \"68596815c04c037e8b63abf8\"   ,\n    \"procurementManagerId\": \"68596930c04c037e8b63ac00\",\n    \"inspectionManagerId\": null,\n    \"checklistId\": null,\n    \"checklistAnswerId\": null,\n    \"orderStatus\": \"CREATED\"\n}",
+					"raw": "{\n    \"name\": \"order2\",\n    \"description\": \"\",\n    \"clientId\": \"68596815c04c037e8b63abf8\"   ,\n    \"procurementManagerId\": \"68596930c04c037e8b63ac00\",\n    \"inspectionManagerId\": \"null\",\n    \"checklistId\": null,\n    \"checklistAnswerId\": null,\n    \"orderStatus\": \"CREATED\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
