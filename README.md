@@ -13,9 +13,9 @@
 
 ---
 
-## Setup
+## Run - Dev
 
-`make 2 env files: .env, .env.prod`
+`make env file: .env`
 
 ```
 npm i
@@ -32,6 +32,8 @@ npm run start:dev
 ---
 
 ## RUN - Prod
+
+`make env file: .env.prod`
 
 ```
 docker compose -f ./compose.prod.yaml --env-file ./.env.prod up --build -d

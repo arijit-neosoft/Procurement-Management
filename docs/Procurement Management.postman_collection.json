@@ -1,0 +1,629 @@
+{
+	"info": {
+		"_postman_id": "b919b370-2438-4e86-89cd-a8f4cc532205",
+		"name": "Procurement Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46065956"
+	},
+	"item": [
+		{
+			"name": "base",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4002/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4002/v1/health/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"health",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signupAdmin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/signupAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"signupAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verifyLink",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"arijit.das@neosoftmail.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/verifyLink",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"verifyLink"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"verifyToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWppdDE5OTkwNTI4K2ltQGdtYWlsLmNvbSIsImlhdCI6MTc1MDY4OTcwMSwiZXhwIjoxNzUwNjkwMzAxfQ.RjQ2D4-zT0lau6x3JJ-NeCDa9PnJ4vK-tyi9bRpXH1A\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/verify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    // \"email\": \"arijit.das@neosoftmail.com\",\n    // \"email\": \"arijit19990528+pm@gmail.com\",\n    \"email\": \"arijit19990528+im@gmail.com\",\n    \"phoneNumber\": \"\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUsersByAdmin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2NzRlYzA0YzAzN2U4YjYzYWJkNCIsImVtYWlsIjoiYXJpaml0LmRhc0BuZW9zb2Z0bWFpbC5jb20iLCJpYXQiOjE3NTA4NDg0NjMsImV4cCI6MTc1MDg1MjA2M30.GRvh3YRea0BmILD3bS_waCQySah4D18jHBTDxNMBVtQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Arijit\",\n    \"lastName\": \"PM\",\n    \"email\": \"arijit19990528+pm@gmail.com@gmail.com\",\n    \"password\": \"password\",\n    \"dob\": \"1999-05-28\",\n    \"phoneNumber\": \"1111111111\",\n    \"role\": \"PROCUREMENT_MANAGER\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/createUsersByAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"createUsersByAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminAssignIMtoPM",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2NzRlYzA0YzAzN2U4YjYzYWJkNCIsImVtYWlsIjoiYXJpaml0LmRhc0BuZW9zb2Z0bWFpbC5jb20iLCJpYXQiOjE3NTA2ODk2NDMsImV4cCI6MTc1MDY5MzI0M30.QQTudcvrcO1LVmodlH5JUYahQnFJudhMoNS17cPMhh0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inspectionManagerId\": \"685967a5c04c037e8b63abe7\",\n    \"procurementManagerId\": \"68596930c04c037e8b63ac00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/adminAssignIMtoPM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"adminAssignIMtoPM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUsersByPM",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNjkxNjIwLCJleHAiOjE3NTA2OTUyMjB9.45W0jwX8yU2lCMphs2LUI5ks13ken3I830A91Hm3o38",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Arijit\",\n    \"lastName\": \"PM\",\n    \"email\": \"arijit19990528+pm@gmail.com\",\n    \"password\": \"password\",\n    \"dob\": \"1999-05-28\",\n    \"phoneNumber\": \"1111111111\",\n    \"role\": \"PROCUREMENT_MANAGER\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/auth/createUsersByPM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"auth",
+						"createUsersByPM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProfile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNzA3MzI3LCJleHAiOjE3NTA3MTA5Mjd9.H5tJ1Ueh3t6xhj8N3JgbXELAR8SvopfrfvWz1pPmJ80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4002/v1/user/getProfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"user",
+						"getProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getIMs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNzA4MjYyLCJleHAiOjE3NTA3MTE4NjJ9.mlWmDw7LJC-NCF81LqLRTeEUDLQNYwe1eGa3NvTKcyM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4002/v1/user/getIMs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"user",
+						"getIMs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwODU3NzY0LCJleHAiOjE3NTA4NjEzNjR9.xY04vNdJXDSTIfSzaOt7Lm7LzBmV5BQPjnSdHsXipic",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"order2\",\n    \"description\": \"\",\n    \"clientId\": \"68596815c04c037e8b63abf8\"   ,\n    \"procurementManagerId\": \"68596930c04c037e8b63ac00\",\n    \"inspectionManagerId\": null,\n    \"checklistId\": null,\n    \"checklistAnswerId\": null,\n    \"orderStatus\": \"CREATED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/order/createOrder",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"order",
+						"createOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrderById",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwODU4MjY0LCJleHAiOjE3NTA4NjE4NjR9.kNL_97NQT1Pjvv6_vIRLoLebg62Q8uz7VA-DkAkGKC4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": \"685a4544887ea85765514516\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/order/getOrderById",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"order",
+						"getOrderById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateOrderStatus",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNzQ1MzUxLCJleHAiOjE3NTA3NDg5NTF9.Ji9C7lFGWQy_LWZVIvTHHF4mLAgEwAuYpX-t4mhiMFE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": \"685a4544887ea85765514516\",\n    \"orderStatus\": \"INSPECTION_DONE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/order/updateOrderStatus",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"order",
+						"updateOrderStatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "linkOrderWithChecklist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNzYzMzkwLCJleHAiOjE3NTA3NjY5OTB9.QCJ0yxluRIotcWW4ae2IYVcMcQ9wo5VjjDf0TGfX8rA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": \"685a4544887ea85765514516\",\n    \"checklistId\": \"685a7a8a5a11401066260079\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/order/linkOrderWithChecklist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"order",
+						"linkOrderWithChecklist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createChecklist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNzU5NTMxLCJleHAiOjE3NTA3NjMxMzF9.br9t3DkgDhrDfZtSzaDktkO_VGSmmLZ3qNpipzLl_CQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Checklist 2\",\n  \"clientId\": \"68596815c04c037e8b63abf8\",\n  \"questions\": [\n    {\n      \"questionText\": \"Cooler present?\",\n      \"type\": \"BOOLEAN\",\n      \"required\": true\n    },\n    {\n      \"questionText\": \"Category\",\n      \"type\": \"DROPDOWN\",\n      \"options\": [\"Eatable\", \"Drinkable\", \"Medicine\"],\n      \"required\": true\n    },\n        {\n      \"questionText\": \"Driver details\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\"LIscence present\", \"Driver number active\", \"Vehicle RC book present\"],\n      \"required\": true\n    },\n    {\n      \"questionText\": \"Note\",\n      \"type\": \"TEXT\",\n      \"required\": true\n    },\n    {\n      \"questionText\": \"Upload vehicle image before loading\",\n      \"type\": \"FILE\",\n      \"required\": true\n    }\n  ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/checklist/createChecklist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"checklist",
+						"createChecklist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getChecklists",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2OTMwYzA0YzAzN2U4YjYzYWMwMCIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgrcG1AZ21haWwuY29tIiwiaWF0IjoxNzUwNzU5NTMxLCJleHAiOjE3NTA3NjMxMzF9.br9t3DkgDhrDfZtSzaDktkO_VGSmmLZ3qNpipzLl_CQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4002/v1/checklist/getChecklists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"checklist",
+						"getChecklists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createChecklistAnswer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTk2N2E1YzA0YzAzN2U4YjYzYWJlNyIsImVtYWlsIjoiYXJpaml0MTk5OTA1MjgraW1AZ21haWwuY29tIiwiaWF0IjoxNzUxMjgzNjUwLCJleHAiOjE3NTEyODcyNTB9.sZlwdPCpqAA8Cc1Sj97ss6QCKeWIwiiRmbFFqtpUsDQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "payload",
+							"value": "{\"orderId\":\"685a4544887ea85765514516\",\"answers\":[{\"questionId\":\"685a7a8a5a1140106626007a\",\"value\":true},{\"questionId\":\"685a7a8a5a1140106626007b\",\"value\":\"Eatable\"},{\"questionId\":\"685a7a8a5a1140106626007c\",\"value\":[\"LIscence present\",\"Vehicle RC book present\"]},{\"questionId\":\"685a7a8a5a1140106626007d\",\"value\":\"All good. Vehicle is clean and ready.\"},{\"questionId\":\"685a7a8a5a1140106626007e\",\"value\":\"http://localhost:4002/uploads/img-img.jpg\"}]}",
+							"type": "text"
+						},
+						{
+							"key": "img",
+							"type": "file",
+							"src": "/C:/Users/user/Pictures/img_1.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4002/v1/checklistAnswer/createChecklistAnswer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4002",
+					"path": [
+						"v1",
+						"checklistAnswer",
+						"createChecklistAnswer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
