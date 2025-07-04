@@ -4,8 +4,8 @@
 
 ## Stack
 
-- `node`
-- `express`
+- `node.js`
+- `express.js`
 - `rest-api`
 - `mongodb`
 - `mongoose`
