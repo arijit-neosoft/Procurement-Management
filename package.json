@@ -13,8 +13,8 @@
     "build:esbuild": "npm run clean && node esbuild.config.js",
     "start:dev": "tsx watch --include './src/**/*.{ts,js}' --env-file=./.env ./src/main.ts",
     "start:prod": "node --env-file=./.env ./dist/src/main.cjs",
-    "lint": "eslint --debug --config ./eslint.config.js --fix ./src ./*.{ts,js}",
-    "format": "prettier --config ./prettier.config.js --write ./src ./*.{ts,js,json}",
+    "lint": "eslint --debug --config ./eslint.config.js --fix ./src ./*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}",
+    "format": "prettier --config ./prettier.config.js --write ./src ./*.{ts,tsx,cts,mts,js,jsx,cjs,mjs,json}",
     "type-check": "tsc --noEmit",
     "pre-commit": "npm run lint && npm run format && npm run type-check"
   },
@@ -35,6 +35,7 @@
     "@vercel/ncc": "^0.38.3",
     "esbuild": "^0.25.5",
     "eslint": "^9.30.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.2.0",
